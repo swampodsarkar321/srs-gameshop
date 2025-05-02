@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRS GameShop - Game Top Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FF6B00;
+            --secondary: #FF9500;
+            --dark: #1A1A1A;
+            --light: #F5F5F5;
+            --success: #28A745;
+            --danger: #DC3545;
+            --ff-color: #F8A01C;
+            --pubg-color: #F7A21B;
+            --coc-color: #9B6728;
+            --cod-color: #2A5D8A;
+            --pc-color: #6C757D;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        /* Navigation */
+        .game-nav {
+            background: white;
+            position: sticky;
+            top: 80px;
+            z-index: 90;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .game-nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+            padding: 0 2rem;
+        }
+        
+        .game-nav-item {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            color: #666;
+            white-space: nowrap;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .game-nav-item:hover, .game-nav-item.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .game-nav-item.ff { color: var(--ff-color); }
+        .game-nav-item.pubg { color: var(--pubg-color); }
+        .game-nav-item.coc { color: var(--coc-color); }
+        .game-nav-item.cod { color: var(--cod-color); }
+        .game-nav-item.pc { color: var(--pc-color); }
+        
+        .game-nav-item.ff.active { border-bottom-color: var(--ff-color); }
+        .game-nav-item.pubg.active { border-bottom-color: var(--pubg-color); }
+        .game-nav-item.coc.active { border-bottom-color: var(--coc-color); }
+        .game-nav-item.cod.active { border-bottom-color: var(--cod-color); }
+        .game-nav-item.pc.active { border-bottom-color: var(--pc-color); }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        /* Game Section */
+        .game-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .game-section.active {
+            display: block;
+        }
+        
+        .game-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .game-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .ff-bg { background: var(--ff-color); }
+        .pubg-bg { background: var(--pubg-color); }
+        .coc-bg { background: var(--coc-color); }
+        .cod-bg { background: var(--cod-color); }
+        .pc-bg { background: var(--pc-color); }
+        
+        .game-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+        }
+        
+        .game-title p {
+            color: #666;
+        }
+        
+        /* Packages Grid */
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .package-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .package-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .package-image {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+        }
+        
+        .package-image-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .package-details {
+            padding: 1.5rem;
+        }
+        
+        .package-details h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .package-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .package-price span {
+            font-size: 1rem;
+            color: #777;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+        
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .buy-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Payment Methods */
+        .payment-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 3rem 0;
+        }
+        
+        .payment-section h2 {
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            font-size: 1.8rem;
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+        
+        .payment-method {
+            flex: 1;
+            min-width: 200px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .payment-icon {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .payment-info h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .payment-info p {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        /* Order Form */
+        .order-form-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .order-form {
+            background: white;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            padding: 2rem;
+            animation: fadeIn 0.3s;
+        }
+        
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-header h2 {
+            color: var(--primary);
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-col h3 {
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-col ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .game-nav-container {
+                padding: 0 1rem;
+            }
+            
+            .game-nav-item {
+                padding: 1rem;
+            }
+            
+            .package-image {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-gamepad" style="font-size: 2rem;"></i>
+                <h1>SRS GameShop</h1>
+            </div>
+            <div>
+              
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <nav class="game-nav">
+        <div class="game-nav-container">
+            <div class="game-nav-item ff active" onclick="showGameSection('ff')">
+                <i class="fas fa-fire"></i> Free Fire
+            </div>
+            <div class="game-nav-item pubg" onclick="showGameSection('pubg')">
+                <i class="fas fa-mobile-alt"></i> PUBG Mobile
+            </div>
+            <div class="game-nav-item coc" onclick="showGameSection('coc')">
+                <i class="fas fa-chess-rook"></i> Clash of Clans
+            </div>
+            <div class="game-nav-item cod" onclick="showGameSection('cod')">
+                <i class="fas fa-crosshairs"></i> Call of Duty
+            </div>
+            <div class="game-nav-item pc" onclick="showGameSection('pc')">
+                <i class="fas fa-desktop"></i> PC Games
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Free Fire Section -->
+        <section id="ffSection" class="game-section active">
+            <div class="game-header">
+                <div class="game-icon ff-bg">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="game-title">
+                    <h2>Free Fire Top Up</h2>
+                    <p>Get your diamonds instantly after payment!</p>
+                </div>
+            </div>
+
+            <div class="packages-grid" id="ffPackagesContainer">
+                <!-- Free Fire packages will be loaded here -->
+            </div>
+
+            <div class="payment-section">
+                <h2><i class="fas fa-wallet"></i> Payment Methods</h2>
+                <div class="payment-methods">
+                    <div class="payment-method">
+                        <div class="payment-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="payment-info">
+                            <h3>Bkash</h3>
+                            <p>01767882562</p>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="payment-info">
+                            <h3>Nagad</h3>
+                            <p>01767882562</p>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="payment-info">
+                            <h3>Rocket</h3>
+                            <p>01767882562</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 1.5rem; color: #777; font-style: italic;">After payment, please fill the order form with your transaction ID to receive your items.</p>
+            </div>
+        </section>
+
+        <!-- PUBG Section -->
+        <section id="pubgSection" class="game-section">
+            <div class="game-header">
+                <div class="game-icon pubg-bg">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="game-title">
+                    <h2>PUBG Mobile UC Top Up</h2>
+                    <p>Get your UC instantly after payment!</p>
+                </div>
+            </div>
+
+            <div class="packages-grid" id="pubgPackagesContainer">
+                <!-- PUBG packages will be loaded here -->
+            </div>
+        </section>
+
+        <!-- COC Section -->
+        <section id="cocSection" class="game-section">
+            <div class="game-header">
+                <div class="game-icon coc-bg">
+                    <i class="fas fa-chess-rook"></i>
+                </div>
+                <div class="game-title">
+                    <h2>Clash of Clans Gems</h2>
+                    <p>Get your gems instantly after payment!</p>
+                </div>
+            </div>
+
+            <div class="packages-grid" id="cocPackagesContainer">
+                <!-- COC packages will be loaded here -->
+            </div>
+        </section>
+
+        <!-- COD Section -->
+        <section id="codSection" class="game-section">
+            <div class="game-header">
+                <div class="game-icon cod-bg">
+                    <i class="fas fa-crosshairs"></i>
+                </div>
+                <div class="game-title">
+                    <h2>Call of Duty Points</h2>
+                    <p>Get your COD Points instantly after payment!</p>
+                </div>
+            </div>
+
+            <div class="packages-grid" id="codPackagesContainer">
+                <!-- COD packages will be loaded here -->
+            </div>
+        </section>
+
+        <!-- PC Games Section -->
+        <section id="pcSection" class="game-section">
+            <div class="game-header">
+                <div class="game-icon pc-bg">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div class="game-title">
+                    <h2>PC Games</h2>
+                    <p>Top up for various PC games</p>
+                </div>
+            </div>
+
+            <div class="packages-grid" id="pcPackagesContainer">
+                <!-- PC games packages will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Order Form Modal -->
+    <div class="order-form-container" id="orderFormContainer">
+        <div class="order-form">
+            <div class="form-header">
+                <h2>Order Details</h2>
+                <button class="close-btn" id="closeFormBtn">&times;</button>
+            </div>
+            <form id="orderForm">
+                <input type="hidden" id="packageId">
+                <input type="hidden" id="packageName">
+                <input type="hidden" id="packagePrice">
+                <input type="hidden" id="gameType">
+                
+                <div class="form-group">
+                    <label for="playerId">Player ID</label>
+                    <input type="text" id="playerId" placeholder="Enter your Player ID" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="playerName">Player Name (Optional)</label>
+                    <input type="text" id="playerName" placeholder="Enter your in-game name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select Payment Method</option>
+                        <option value="Bkash">Bkash</option>
+                        <option value="Nagad">Nagad</option>
+                        <option value="Rocket">Rocket</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="transactionId">Transaction ID</label>
+                    <input type="text" id="transactionId" placeholder="Enter transaction ID" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="playerPhone">Your Phone Number (Optional)</label>
+                    <input type="text" id="playerPhone" placeholder="Enter your phone number">
+                </div>
+                
+                <button type="button" class="submit-btn" id="submitOrderBtn">
+                    <i class="fas fa-paper-plane"></i> Submit Order
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>SRS GameShop</h3>
+                <p>Your trusted source for game top ups. Fast, reliable, and secure service.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">How to Order</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="admin.html">Admin Login</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Payment Help</a></li>
+                    <li><a href="#">Delivery Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-phone"></i> 01767882562</li>
+                    <li><i class="fas fa-envelope"></i> support@srsgameshop.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 SRS GameShop. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Game sections navigation
+        function showGameSection(game) {
+            // Update active nav item
+            document.querySelectorAll('.game-nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Show selected section
+            document.querySelectorAll('.game-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(game + 'Section').classList.add('active');
+        }
+        
+        // Load packages for each game
+        function loadGamePackages(game) {
+            const packages = JSON.parse(localStorage.getItem(game + 'Packages')) || [];
+            const container = document.getElementById(game + 'PackagesContainer');
+            
+            if (packages.length === 0 && game === 'ff') {
+                // Default Free Fire packages if none exist
+                const defaultPackages = [
+                    { id: 1, name: "100 Diamonds", amount: 100, price: 100, originalPrice: 120, badge: "Popular" },
+                    { id: 2, name: "310 Diamonds", amount: 310, price: 300, originalPrice: 350, badge: "Best Value" },
+                    { id: 3, name: "520 Diamonds", amount: 520, price: 500, originalPrice: 600, badge: "" },
+                    { id: 4, name: "1060 Diamonds", amount: 1060, price: 1000, originalPrice: 1200, badge: "Mega Deal" }
+                ];
+                localStorage.setItem('ffPackages', JSON.stringify(defaultPackages));
+                loadGamePackages(game);
+                return;
+            }
+            
+            if (packages.length === 0 && game === 'pubg') {
+                // Default PUBG packages if none exist
+                const defaultPackages = [
+                    { id: 1, name: "60 UC", amount: 60, price: 100, originalPrice: 120, badge: "" },
+                    { id: 2, name: "325 UC", amount: 325, price: 500, originalPrice: 550, badge: "Popular" },
+                    { id: 3, name: "660 UC", amount: 660, price: 1000, originalPrice: 1100, badge: "" }
+                ];
+                localStorage.setItem('pubgPackages', JSON.stringify(defaultPackages));
+                loadGamePackages(game);
+                return;
+            }
+            
+            if (packages.length === 0 && game === 'coc') {
+                // Default COC packages if none exist
+                const defaultPackages = [
+                    { id: 1, name: "500 Gems", amount: 500, price: 100, originalPrice: 120, badge: "" },
+                    { id: 2, name: "1200 Gems", amount: 1200, price: 200, originalPrice: 250, badge: "" },
+                    { id: 3, name: "2500 Gems", amount: 2500, price: 400, originalPrice: 450, badge: "Best Value" }
+                ];
+                localStorage.setItem('cocPackages', JSON.stringify(defaultPackages));
+                loadGamePackages(game);
+                return;
+            }
+            
+            if (packages.length === 0 && game === 'cod') {
+                // Default COD packages if none exist
+                const defaultPackages = [
+                    { id: 1, name: "80 CP", amount: 80, price: 100, originalPrice: 120, badge: "" },
+                    { id: 2, name: "400 CP", amount: 400, price: 500, originalPrice: 550, badge: "Popular" },
+                    { id: 3, name: "800 CP", amount: 800, price: 1000, originalPrice: 1100, badge: "" }
+                ];
+                localStorage.setItem('codPackages', JSON.stringify(defaultPackages));
+                loadGamePackages(game);
+                return;
+            }
+            
+            if (packages.length === 0 && game === 'pc') {
+                // Default PC Games packages if none exist
+                const defaultPackages = [
+                    { id: 1, name: "Steam Wallet 500", amount: 500, price: 500, originalPrice: 550, badge: "" },
+                    { id: 2, name: "Steam Wallet 1000", amount: 1000, price: 1000, originalPrice: 1100, badge: "Popular" },
+                    { id: 3, name: "Steam Wallet 2000", amount: 2000, price: 2000, originalPrice: 2200, badge: "" }
+                ];
+                localStorage.setItem('pcPackages', JSON.stringify(defaultPackages));
+                loadGamePackages(game);
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            packages.forEach(pkg => {
+                const packageCard = document.createElement('div');
+                packageCard.className = 'package-card';
+                packageCard.innerHTML = `
+                    ${pkg.badge ? `<div class="package-badge">${pkg.badge}</div>` : ''}
+                    <div class="package-image" style="background: ${getGameColor(game)}">
+                        <div class="package-image-content">
+                            ${pkg.amount} <span style="font-size: 1.5rem;">${getGameIcon(game)}</span>
+                        </div>
+                    </div>
+                    <div class="package-details">
+                        <h3>${pkg.name}</h3>
+                        <div class="package-price">
+                            ${pkg.price} BDT
+                            ${pkg.originalPrice ? `<span>${pkg.originalPrice} BDT</span>` : ''}
+                        </div>
+                        <button class="buy-btn" onclick="showOrderForm('${pkg.id}', '${pkg.name}', ${pkg.price}, '${game}')">
+                            <i class="fas fa-shopping-cart"></i> Buy Now
+                        </button>
+                    </div>
+                `;
+                container.appendChild(packageCard);
+            });
+        }
+        
+        function getGameColor(game) {
+            switch(game) {
+                case 'ff': return '#F8A01C';
+                case 'pubg': return '#F7A21B';
+                case 'coc': return '#9B6728';
+                case 'cod': return '#2A5D8A';
+                case 'pc': return '#6C757D';
+            }
+        }
+        
+        function getGameIcon(game) {
+            switch(game) {
+                case 'ff': return '💎';
+                case 'pubg': return '🔫';
+                case 'coc': return '🏰';
+                case 'cod': return '🎯';
+                case 'pc': return '🖥️';
+            }
+        }
+        
+        // Show order form
+        function showOrderForm(pkgId, pkgName, pkgPrice, gameType) {
+            document.getElementById('packageId').value = pkgId;
+            document.getElementById('packageName').value = pkgName;
+            document.getElementById('packagePrice').value = pkgPrice;
+            document.getElementById('gameType').value = gameType;
+            document.getElementById('orderFormContainer').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close order form
+        document.getElementById('closeFormBtn').addEventListener('click', () => {
+            document.getElementById('orderFormContainer').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Submit order
+        document.getElementById('submitOrderBtn').addEventListener('click', () => {
+            const order = {
+                id: Date.now(),
+                packageId: document.getElementById('packageId').value,
+                packageName: document.getElementById('packageName').value,
+                packagePrice: document.getElementById('packagePrice').value,
+                gameType: document.getElementById('gameType').value,
+                playerId: document.getElementById('playerId').value,
+                playerName: document.getElementById('playerName').value,
+                paymentMethod: document.getElementById('paymentMethod').value,
+                transactionId: document.getElementById('transactionId').value,
+                playerPhone: document.getElementById('playerPhone').value,
+                status: 'Pending',
+                date: new Date().toLocaleString()
+            };
+            
+            if (!order.playerId || !order.paymentMethod || !order.transactionId) {
+                alert('Please fill all required fields');
+                return;
+            }
+            
+            // Save order
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+            
+            alert('Order submitted successfully! Our admin will process it shortly.');
+            document.getElementById('orderForm').reset();
+            document.getElementById('orderFormContainer').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load packages for all games
+            ['ff', 'pubg', 'coc', 'cod', 'pc'].forEach(game => {
+                loadGamePackages(game);
+            });
+        });
+    </script>
+</body>
+</html>
