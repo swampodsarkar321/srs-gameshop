@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SRS GameShop - Game Top Up</title>
+    <title>SRS GameShop - Premium Game Top Up</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #FF6B00;
@@ -21,21 +22,22 @@
             --cod-color: #2A5D8A;
             --pc-color: #6C757D;
             --bg-gradient: linear-gradient(135deg, var(--primary), var(--secondary));
-            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            --transition: all 0.3s ease;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
         
         body {
             background-color: #f9f9f9;
-            color: #333;
+            color: var(--dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         /* Header Styles */
@@ -46,7 +48,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
         .header-container {
@@ -61,19 +63,44 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             text-decoration: none;
             color: white;
+            transition: var(--transition);
+        }
+        
+        .logo:hover {
+            transform: translateY(-2px);
         }
         
         .logo img {
             height: 40px;
             border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         .logo h1 {
             font-size: 1.5rem;
             font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .contact-btn {
+            background: rgba(255,255,255,0.2);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .contact-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
         }
         
         /* Navigation */
@@ -82,7 +109,7 @@
             position: sticky;
             top: 70px;
             z-index: 900;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         
         .game-nav-container {
@@ -100,7 +127,7 @@
         }
         
         .game-nav-item {
-            padding: 1rem;
+            padding: 1rem 1.2rem;
             font-weight: 600;
             color: #666;
             white-space: nowrap;
@@ -108,11 +135,15 @@
             border-bottom: 3px solid transparent;
             transition: var(--transition);
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .game-nav-item:hover, .game-nav-item.active {
             color: var(--primary);
             border-bottom-color: var(--primary);
+            background: rgba(255, 107, 0, 0.05);
         }
         
         .game-nav-item.ff { color: var(--ff-color); }
@@ -121,11 +152,26 @@
         .game-nav-item.cod { color: var(--cod-color); }
         .game-nav-item.pc { color: var(--pc-color); }
         
-        .game-nav-item.ff.active { border-bottom-color: var(--ff-color); }
-        .game-nav-item.pubg.active { border-bottom-color: var(--pubg-color); }
-        .game-nav-item.coc.active { border-bottom-color: var(--coc-color); }
-        .game-nav-item.cod.active { border-bottom-color: var(--cod-color); }
-        .game-nav-item.pc.active { border-bottom-color: var(--pc-color); }
+        .game-nav-item.ff.active { 
+            border-bottom-color: var(--ff-color); 
+            background: rgba(248, 160, 28, 0.05);
+        }
+        .game-nav-item.pubg.active { 
+            border-bottom-color: var(--pubg-color); 
+            background: rgba(247, 162, 27, 0.05);
+        }
+        .game-nav-item.coc.active { 
+            border-bottom-color: var(--coc-color); 
+            background: rgba(155, 103, 40, 0.05);
+        }
+        .game-nav-item.cod.active { 
+            border-bottom-color: var(--cod-color); 
+            background: rgba(42, 93, 138, 0.05);
+        }
+        .game-nav-item.pc.active { 
+            border-bottom-color: var(--pc-color); 
+            background: rgba(108, 117, 125, 0.05);
+        }
         
         /* Main Container */
         .container {
@@ -137,7 +183,7 @@
         /* Game Section */
         .game-section {
             display: none;
-            animation: fadeIn 0.5s;
+            animation: fadeIn 0.5s ease-out;
         }
         
         @keyframes fadeIn {
@@ -152,20 +198,39 @@
         .game-header {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,107,0,0.1), rgba(255,149,0,0.05));
+            clip-path: polygon(25% 0%, 100% 0%, 100% 100%, 0% 100%);
         }
         
         .game-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: white;
             flex-shrink: 0;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1;
         }
         
         .ff-bg { background: var(--ff-color); }
@@ -178,28 +243,44 @@
             font-size: 1.8rem;
             color: var(--dark);
             margin-bottom: 0.3rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .game-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
         }
         
         .game-title p {
             color: #666;
             font-size: 0.95rem;
+            max-width: 600px;
         }
         
         /* Packages Grid */
         .packages-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
             margin: 2rem 0;
         }
         
         .package-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
             box-shadow: var(--card-shadow);
             transition: var(--transition);
             position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
         }
         
         .package-card:hover {
@@ -209,27 +290,30 @@
         
         .package-badge {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             background: var(--primary);
             color: white;
-            padding: 0.3rem 0.8rem;
+            padding: 0.3rem 1rem;
             border-radius: 20px;
             font-size: 0.75rem;
             font-weight: bold;
             z-index: 1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
         .package-image {
-            height: 150px;
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: bold;
             position: relative;
             overflow: hidden;
+            background-size: cover;
+            background-position: center;
         }
         
         .package-image::before {
@@ -246,6 +330,21 @@
             position: relative;
             z-index: 1;
             text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            padding: 1rem;
+            width: 100%;
+        }
+        
+        .package-amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .package-name {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 500;
         }
         
         .package-details {
@@ -253,35 +352,37 @@
         }
         
         .package-details h3 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
             color: var(--dark);
+            font-weight: 600;
         }
         
         .package-price {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: bold;
             color: var(--primary);
-            margin-bottom: 1rem;
+            margin: 1rem 0;
             display: flex;
             align-items: center;
         }
         
         .package-price span {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #777;
             text-decoration: line-through;
-            margin-left: 0.5rem;
+            margin-left: 0.8rem;
+            font-weight: normal;
         }
         
         .buy-btn {
             display: block;
             width: 100%;
-            padding: 0.8rem;
+            padding: 1rem;
             background: var(--bg-gradient);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -290,73 +391,124 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
         }
         
         .buy-btn:hover {
-            opacity: 0.9;
+            opacity: 0.95;
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 0, 0.4);
         }
         
         /* Payment Methods */
         .payment-section {
             background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 16px;
+            padding: 2rem;
             margin: 3rem 0;
             box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--bg-gradient);
         }
         
         .payment-section h2 {
             margin-bottom: 1.5rem;
             color: var(--dark);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            font-weight: 700;
         }
         
         .payment-methods {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
         
         .payment-method {
             background: #f5f5f5;
-            border-radius: 8px;
-            padding: 1.2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-method::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
             transition: var(--transition);
         }
         
         .payment-method:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            background: white;
+        }
+        
+        .payment-method:hover::after {
+            transform: scaleX(1);
         }
         
         .payment-icon {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--primary);
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            flex-shrink: 0;
         }
         
         .payment-info h3 {
             margin-bottom: 0.3rem;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
         
         .payment-info p {
             font-weight: bold;
             color: var(--primary);
-            font-size: 0.95rem;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
         }
         
         .payment-note {
             margin-top: 1.5rem;
             color: #777;
             font-style: italic;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            padding: 1rem;
+            background: rgba(255, 107, 0, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
         }
         
         /* Order Form */
@@ -372,17 +524,30 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
+            animation: fadeIn 0.3s;
         }
         
         .order-form {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             width: 100%;
             max-width: 500px;
-            padding: 1.5rem;
+            padding: 2rem;
             animation: fadeIn 0.3s;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .order-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--bg-gradient);
         }
         
         .form-header {
@@ -390,82 +555,108 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
         }
         
         .form-header h2 {
             color: var(--primary);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
+            font-weight: 700;
         }
         
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: #777;
             transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
         
         .close-btn:hover {
             color: var(--danger);
+            background: rgba(220, 53, 69, 0.1);
             transform: rotate(90deg);
         }
         
         .form-group {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1.5rem;
         }
         
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             font-weight: 600;
             font-size: 0.95rem;
+            color: #555;
         }
         
         .form-group input, .form-group select {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 1rem;
             border: 1px solid #ddd;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1rem;
             transition: var(--transition);
+            background: #f9f9f9;
         }
         
         .form-group input:focus, .form-group select:focus {
             border-color: var(--primary);
             outline: none;
             box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+            background: white;
         }
         
         .submit-btn {
             width: 100%;
-            padding: 1rem;
+            padding: 1.2rem;
             background: var(--bg-gradient);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            margin-top: 0.5rem;
+            margin-top: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
         }
         
         .submit-btn:hover {
-            opacity: 0.9;
+            opacity: 0.95;
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 0, 0.4);
         }
         
         /* Footer */
         footer {
             background: var(--dark);
             color: white;
-            padding: 3rem 0 0;
-            margin-top: 3rem;
+            padding: 4rem 0 0;
+            margin-top: 4rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: var(--bg-gradient);
         }
         
         .footer-container {
@@ -474,14 +665,15 @@
             padding: 0 1.5rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
+            gap: 3rem;
         }
         
         .footer-col h3 {
             margin-bottom: 1.5rem;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             position: relative;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.8rem;
+            font-weight: 700;
         }
         
         .footer-col h3::after {
@@ -490,14 +682,15 @@
             bottom: 0;
             left: 0;
             width: 50px;
-            height: 2px;
+            height: 3px;
             background: var(--primary);
         }
         
         .footer-col p {
             color: #ccc;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-size: 0.95rem;
+            line-height: 1.7;
         }
         
         .footer-col ul {
@@ -505,7 +698,7 @@
         }
         
         .footer-col ul li {
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
         
         .footer-col ul li a {
@@ -515,7 +708,7 @@
             font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
         
         .footer-col ul li a:hover {
@@ -526,30 +719,32 @@
         .social-links {
             display: flex;
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
         
         .social-links a {
             color: white;
             background: rgba(255,255,255,0.1);
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: var(--transition);
+            font-size: 1.2rem;
         }
         
         .social-links a:hover {
             background: var(--primary);
             transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
         
         .copyright {
             text-align: center;
-            padding: 1.5rem 0;
-            margin-top: 2rem;
+            padding: 2rem 0;
+            margin-top: 3rem;
             border-top: 1px solid rgba(255,255,255,0.1);
             color: #aaa;
             font-size: 0.9rem;
@@ -562,9 +757,9 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
             z-index: 2000;
             display: flex;
             flex-direction: column;
@@ -583,8 +778,8 @@
         }
         
         .notification-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
         }
         
         .notification.success .notification-icon {
@@ -596,42 +791,46 @@
         }
         
         .notification h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.5rem;
+            font-weight: 700;
         }
         
         .notification p {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             color: #666;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            line-height: 1.6;
         }
         
         .notification-btn {
-            padding: 0.7rem 1.5rem;
+            padding: 0.8rem 2rem;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 4px 12px rgba(255, 107, 0, 0.3);
         }
         
         .notification-btn:hover {
             opacity: 0.9;
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 107, 0, 0.4);
         }
         
         /* Site Notification */
         .site-notification {
             background: rgba(0, 123, 255, 0.1);
             border-left: 4px solid var(--info);
-            padding: 1rem;
-            margin-bottom: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            border-radius: 8px;
+            gap: 1.5rem;
+            border-radius: 12px;
             animation: slideIn 0.5s;
         }
         
@@ -642,19 +841,21 @@
         
         .site-notification i {
             color: var(--info);
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             flex-shrink: 0;
         }
         
         .site-notification-content h4 {
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
             color: var(--dark);
-            font-size: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
         }
         
         .site-notification-content p {
             color: #666;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
         
         /* Loading Spinner */
@@ -673,6 +874,12 @@
         }
         
         /* Responsive */
+        @media (max-width: 992px) {
+            .packages-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
         @media (max-width: 768px) {
             .header-container {
                 padding: 0 1rem;
@@ -687,7 +894,7 @@
             }
             
             .game-nav-item {
-                padding: 0.8rem;
+                padding: 0.8rem 1rem;
                 font-size: 0.85rem;
             }
             
@@ -698,15 +905,15 @@
             .game-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 1rem;
+                gap: 1.5rem;
             }
             
             .game-title h2 {
                 font-size: 1.5rem;
             }
             
-            .packages-grid {
-                grid-template-columns: 1fr;
+            .payment-section {
+                padding: 1.5rem;
             }
             
             .payment-methods {
@@ -715,23 +922,31 @@
             
             .footer-container {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2rem;
             }
         }
         
-        @media (max-width: 480px) {
+        @media (max-width: 576px) {
             .logo h1 {
                 font-size: 1.2rem;
             }
             
+            .contact-btn span {
+                display: none;
+            }
+            
             .game-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
             }
             
             .package-image {
-                height: 120px;
+                height: 160px;
+            }
+            
+            .package-amount {
+                font-size: 2rem;
             }
             
             .package-details {
@@ -739,7 +954,15 @@
             }
             
             .order-form {
-                padding: 1.2rem;
+                padding: 1.5rem;
+            }
+            
+            .notification {
+                padding: 1.5rem;
+            }
+            
+            .notification-icon {
+                font-size: 3rem;
             }
         }
     </style>
@@ -747,9 +970,15 @@
 <body>
     <header>
         <div class="header-container">
-            <div class="logo">
+            <a href="#" class="logo">
                 <i class="fas fa-gamepad"></i>
                 <h1>SRS GameShop</h1>
+            </a>
+            <div class="header-actions">
+                <a href="tel:01767882562" class="contact-btn">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>01767882562</span>
+                </a>
             </div>
         </div>
     </header>
@@ -791,8 +1020,8 @@
                     <i class="fas fa-fire"></i>
                 </div>
                 <div class="game-title">
-                    <h2>Free Fire Top Up</h2>
-                    <p>Get your diamonds instantly after payment!</p>
+                    <h2>Free Fire Diamond Top Up</h2>
+                    <p>Get your diamonds instantly after payment! Fast and secure diamond delivery directly to your Free Fire account.</p>
                 </div>
             </div>
 
@@ -805,7 +1034,7 @@
                 <div class="payment-methods" id="paymentMethodsContainer">
                     <!-- Payment methods will be loaded here -->
                 </div>
-                <p class="payment-note">After payment, please fill the order form with your transaction ID to receive your items.</p>
+                <p class="payment-note">After payment, please fill the order form with your transaction ID to receive your items. Delivery usually takes 1-5 minutes after payment confirmation.</p>
             </div>
         </section>
 
@@ -817,7 +1046,7 @@
                 </div>
                 <div class="game-title">
                     <h2>PUBG Mobile UC Top Up</h2>
-                    <p>Get your UC instantly after payment!</p>
+                    <p>Get your UC instantly after payment! Fast and secure UC delivery directly to your PUBG Mobile account.</p>
                 </div>
             </div>
 
@@ -834,7 +1063,7 @@
                 </div>
                 <div class="game-title">
                     <h2>Clash of Clans Gems</h2>
-                    <p>Get your gems instantly after payment!</p>
+                    <p>Get your gems instantly after payment! Fast and secure gem delivery directly to your Clash of Clans account.</p>
                 </div>
             </div>
 
@@ -851,7 +1080,7 @@
                 </div>
                 <div class="game-title">
                     <h2>Call of Duty Points</h2>
-                    <p>Get your COD Points instantly after payment!</p>
+                    <p>Get your COD Points instantly after payment! Fast and secure point delivery directly to your Call of Duty account.</p>
                 </div>
             </div>
 
@@ -867,8 +1096,8 @@
                     <i class="fas fa-desktop"></i>
                 </div>
                 <div class="game-title">
-                    <h2>PC Games</h2>
-                    <p>Top up for various PC games</p>
+                    <h2>PC Games Top Up</h2>
+                    <p>Top up for various PC games including Steam Wallet, Valorant Points, and more.</p>
                 </div>
             </div>
 
@@ -882,7 +1111,7 @@
     <div class="order-form-container" id="orderFormContainer">
         <div class="order-form">
             <div class="form-header">
-                <h2>Order Details</h2>
+                <h2>Complete Your Order</h2>
                 <button class="close-btn" id="closeFormBtn">&times;</button>
             </div>
             <form id="orderForm">
@@ -942,7 +1171,7 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h3>SRS GameShop</h3>
-                <p>Your trusted source for game top ups. Fast, reliable, and secure service.</p>
+                <p>Your trusted source for game top ups. Fast, reliable, and secure service with 24/7 customer support.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -953,9 +1182,9 @@
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Free Fire</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> PUBG Mobile</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-right"></i> Clash of Clans</a></li>
+                    <li><a href="#" onclick="showGameSection('ff')"><i class="fas fa-chevron-right"></i> Free Fire</a></li>
+                    <li><a href="#" onclick="showGameSection('pubg')"><i class="fas fa-chevron-right"></i> PUBG Mobile</a></li>
+                    <li><a href="#" onclick="showGameSection('coc')"><i class="fas fa-chevron-right"></i> Clash of Clans</a></li>
                 </ul>
             </div>
             <div class="footer-col">
@@ -975,8 +1204,6 @@
     <!-- Firebase and other scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <script>
         // Firebase configuration
         const firebaseConfig = {
@@ -1050,10 +1277,42 @@
                         if (game === 'ff') {
                             // Add default Free Fire packages if none exist
                             const defaultPackages = {
-                                0: { id: '1', name: "100 Diamonds", amount: 100, price: 100, originalPrice: 120, badge: "Popular" },
-                                1: { id: '2', name: "310 Diamonds", amount: 310, price: 300, originalPrice: 350, badge: "Best Value" },
-                                2: { id: '3', name: "520 Diamonds", amount: 520, price: 500, originalPrice: 600, badge: "" },
-                                3: { id: '4', name: "1060 Diamonds", amount: 1060, price: 1000, originalPrice: 1200, badge: "Mega Deal" }
+                                0: { 
+                                    id: '1', 
+                                    name: "100 Diamonds", 
+                                    amount: 100, 
+                                    price: 100, 
+                                    originalPrice: 120, 
+                                    badge: "Popular",
+                                    imageUrl: "https://via.placeholder.com/300x180.png?text=Free+Fire+100+Diamonds"
+                                },
+                                1: { 
+                                    id: '2', 
+                                    name: "310 Diamonds", 
+                                    amount: 310, 
+                                    price: 300, 
+                                    originalPrice: 350, 
+                                    badge: "Best Value",
+                                    imageUrl: "https://via.placeholder.com/300x180.png?text=Free+Fire+310+Diamonds"
+                                },
+                                2: { 
+                                    id: '3', 
+                                    name: "520 Diamonds", 
+                                    amount: 520, 
+                                    price: 500, 
+                                    originalPrice: 600, 
+                                    badge: "",
+                                    imageUrl: "https://via.placeholder.com/300x180.png?text=Free+Fire+520+Diamonds"
+                                },
+                                3: { 
+                                    id: '4', 
+                                    name: "1060 Diamonds", 
+                                    amount: 1060, 
+                                    price: 1000, 
+                                    originalPrice: 1200, 
+                                    badge: "Mega Deal",
+                                    imageUrl: "https://via.placeholder.com/300x180.png?text=Free+Fire+1060+Diamonds"
+                                }
                             };
                             
                             database.ref('packages/ff').set(defaultPackages);
@@ -1069,11 +1328,18 @@
                         
                         const packageCard = document.createElement('div');
                         packageCard.className = 'package-card';
+                        
+                        // Set background image if available, otherwise use gradient
+                        const bgStyle = pkg.imageUrl ? 
+                            `background-image: url('${pkg.imageUrl}')` : 
+                            `background: ${getGameColor(game)}`;
+                        
                         packageCard.innerHTML = `
                             ${pkg.badge ? `<div class="package-badge">${pkg.badge}</div>` : ''}
-                            <div class="package-image" style="background: ${getGameColor(game)}">
+                            <div class="package-image" style="${bgStyle}">
                                 <div class="package-image-content">
-                                    ${pkg.amount} <span style="font-size: 1.5rem;">${getGameIcon(game)}</span>
+                                    <div class="package-amount">${pkg.amount}</div>
+                                    <div class="package-name">${pkg.name}</div>
                                 </div>
                             </div>
                             <div class="package-details">
@@ -1099,7 +1365,10 @@
                 const settings = snapshot.val() || {
                     bkashNumber: '01767882562',
                     nagadNumber: '01767882562',
-                    rocketNumber: '01767882562'
+                    rocketNumber: '01767882562',
+                    bkashName: 'SRS GameShop',
+                    nagadName: 'SRS GameShop',
+                    rocketName: 'SRS GameShop'
                 };
                 
                 const container = document.getElementById('paymentMethodsContainer');
@@ -1110,7 +1379,7 @@
                         </div>
                         <div class="payment-info">
                             <h3>Bkash</h3>
-                            <p>${settings.bkashNumber}</p>
+                            <p>${settings.bkashNumber} (${settings.bkashName})</p>
                         </div>
                     </div>
                     <div class="payment-method">
@@ -1119,7 +1388,7 @@
                         </div>
                         <div class="payment-info">
                             <h3>Nagad</h3>
-                            <p>${settings.nagadNumber}</p>
+                            <p>${settings.nagadNumber} (${settings.nagadName})</p>
                         </div>
                     </div>
                     <div class="payment-method">
@@ -1128,7 +1397,7 @@
                         </div>
                         <div class="payment-info">
                             <h3>Rocket</h3>
-                            <p>${settings.rocketNumber}</p>
+                            <p>${settings.rocketNumber} (${settings.rocketName})</p>
                         </div>
                     </div>
                 `;
