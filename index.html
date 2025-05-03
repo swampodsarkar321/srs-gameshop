@@ -13,57 +13,66 @@
             --light: #F5F5F5;
             --success: #28A745;
             --danger: #DC3545;
+            --warning: #FFC107;
+            --info: #17A2B8;
             --ff-color: #F8A01C;
             --pubg-color: #F7A21B;
             --coc-color: #9B6728;
             --cod-color: #2A5D8A;
             --pc-color: #6C757D;
+            --bg-gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --card-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             background-color: #f9f9f9;
             color: #333;
+            line-height: 1.6;
         }
         
         /* Header Styles */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: var(--bg-gradient);
             color: white;
-            padding: 1.5rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .header-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 2rem;
         }
         
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
+            text-decoration: none;
+            color: white;
         }
         
         .logo img {
             height: 40px;
+            border-radius: 50%;
         }
         
         .logo h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
         }
         
@@ -71,27 +80,34 @@
         .game-nav {
             background: white;
             position: sticky;
-            top: 80px;
-            z-index: 90;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            top: 70px;
+            z-index: 900;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
         .game-nav-container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 1.5rem;
             display: flex;
             overflow-x: auto;
-            padding: 0 2rem;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .game-nav-container::-webkit-scrollbar {
+            display: none;
         }
         
         .game-nav-item {
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             font-weight: 600;
             color: #666;
             white-space: nowrap;
             cursor: pointer;
             border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            transition: var(--transition);
+            font-size: 0.9rem;
         }
         
         .game-nav-item:hover, .game-nav-item.active {
@@ -115,7 +131,7 @@
         .container {
             max-width: 1200px;
             margin: 2rem auto;
-            padding: 0 2rem;
+            padding: 0 1.5rem;
         }
         
         /* Game Section */
@@ -125,8 +141,8 @@
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .game-section.active {
@@ -149,6 +165,7 @@
             justify-content: center;
             font-size: 2rem;
             color: white;
+            flex-shrink: 0;
         }
         
         .ff-bg { background: var(--ff-color); }
@@ -158,34 +175,36 @@
         .pc-bg { background: var(--pc-color); }
         
         .game-title h2 {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--dark);
+            margin-bottom: 0.3rem;
         }
         
         .game-title p {
             color: #666;
+            font-size: 0.95rem;
         }
         
         /* Packages Grid */
         .packages-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
         
         .package-card {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
             position: relative;
         }
         
         .package-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
         
         .package-badge {
@@ -196,8 +215,9 @@
             color: white;
             padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: bold;
+            z-index: 1;
         }
         
         .package-image {
@@ -233,20 +253,22 @@
         }
         
         .package-details h3 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             margin-bottom: 0.5rem;
             color: var(--dark);
         }
         
         .package-price {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: var(--primary);
             margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
         }
         
         .package-price span {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: #777;
             text-decoration: line-through;
             margin-left: 0.5rem;
@@ -256,14 +278,18 @@
             display: block;
             width: 100%;
             padding: 0.8rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: var(--bg-gradient);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
         .buy-btn:hover {
@@ -274,47 +300,63 @@
         /* Payment Methods */
         .payment-section {
             background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
             margin: 3rem 0;
+            box-shadow: var(--card-shadow);
         }
         
         .payment-section h2 {
             margin-bottom: 1.5rem;
             color: var(--dark);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .payment-methods {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-        }
-        
-        .payment-method {
-            flex: 1;
-            min-width: 200px;
-            background: #f5f5f5;
-            border-radius: 8px;
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
         }
         
+        .payment-method {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+        
+        .payment-method:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
         .payment-icon {
-            font-size: 2rem;
+            font-size: 1.8rem;
             color: var(--primary);
         }
         
         .payment-info h3 {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
         }
         
         .payment-info p {
             font-weight: bold;
             color: var(--primary);
+            font-size: 0.95rem;
+        }
+        
+        .payment-note {
+            margin-top: 1.5rem;
+            color: #777;
+            font-style: italic;
+            font-size: 0.9rem;
         }
         
         /* Order Form */
@@ -329,15 +371,18 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
         
         .order-form {
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             width: 100%;
             max-width: 500px;
-            padding: 2rem;
+            padding: 1.5rem;
             animation: fadeIn 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .form-header {
@@ -349,6 +394,7 @@
         
         .form-header h2 {
             color: var(--primary);
+            font-size: 1.5rem;
         }
         
         .close-btn {
@@ -357,55 +403,75 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: #777;
+            transition: var(--transition);
+        }
+        
+        .close-btn:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
         
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            font-size: 0.95rem;
         }
         
         .form-group input, .form-group select {
             width: 100%;
             padding: 0.8rem 1rem;
             border: 1px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
         }
         
         .submit-btn {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
+            background: var(--bg-gradient);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
         .submit-btn:hover {
             opacity: 0.9;
+            transform: translateY(-2px);
         }
         
         /* Footer */
         footer {
             background: var(--dark);
             color: white;
-            padding: 3rem 0;
+            padding: 3rem 0 0;
             margin-top: 3rem;
         }
         
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1.5rem;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
@@ -414,6 +480,24 @@
         .footer-col h3 {
             margin-bottom: 1.5rem;
             font-size: 1.2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--primary);
+        }
+        
+        .footer-col p {
+            color: #ccc;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
         }
         
         .footer-col ul {
@@ -427,11 +511,16 @@
         .footer-col ul li a {
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s;
+            transition: var(--transition);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .footer-col ul li a:hover {
             color: white;
+            transform: translateX(5px);
         }
         
         .social-links {
@@ -449,7 +538,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
         
         .social-links a:hover {
@@ -459,29 +548,198 @@
         
         .copyright {
             text-align: center;
-            padding-top: 2rem;
+            padding: 1.5rem 0;
             margin-top: 2rem;
             border-top: 1px solid rgba(255,255,255,0.1);
             color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Notification System */
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .notification.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .notification-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .notification.success .notification-icon {
+            color: var(--success);
+        }
+        
+        .notification.error .notification-icon {
+            color: var(--danger);
+        }
+        
+        .notification h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .notification p {
+            margin-bottom: 1.5rem;
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .notification-btn {
+            padding: 0.7rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .notification-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Site Notification */
+        .site-notification {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 4px solid var(--info);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-radius: 8px;
+            animation: slideIn 0.5s;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .site-notification i {
+            color: var(--info);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .site-notification-content h4 {
+            margin-bottom: 0.3rem;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+        
+        .site-notification-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
         /* Responsive */
         @media (max-width: 768px) {
             .header-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .game-nav-container {
                 padding: 0 1rem;
             }
             
+            .logo h1 {
+                font-size: 1.3rem;
+            }
+            
+            .game-nav {
+                top: 60px;
+            }
+            
             .game-nav-item {
-                padding: 1rem;
+                padding: 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .game-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .game-title h2 {
+                font-size: 1.5rem;
+            }
+            
+            .packages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+            
+            .game-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
             }
             
             .package-image {
                 height: 120px;
+            }
+            
+            .package-details {
+                padding: 1.2rem;
+            }
+            
+            .order-form {
+                padding: 1.2rem;
             }
         }
     </style>
@@ -490,12 +748,8 @@
     <header>
         <div class="header-container">
             <div class="logo">
-                <i class="fas fa-gamepad" style="font-size: 2rem;"></i>
+                <i class="fas fa-gamepad"></i>
                 <h1>SRS GameShop</h1>
-            </div>
-            <div>
-              
-                </a>
             </div>
         </div>
     </header>
@@ -521,6 +775,15 @@
     </nav>
 
     <div class="container">
+        <!-- Site Notification -->
+        <div id="siteNotificationContainer" class="site-notification" style="display: none;">
+            <i class="fas fa-info-circle"></i>
+            <div class="site-notification-content">
+                <h4 id="siteNotificationTitle">Notification Title</h4>
+                <p id="siteNotificationMessage">Notification message content goes here.</p>
+            </div>
+        </div>
+
         <!-- Free Fire Section -->
         <section id="ffSection" class="game-section active">
             <div class="game-header">
@@ -534,41 +797,15 @@
             </div>
 
             <div class="packages-grid" id="ffPackagesContainer">
-                <!-- Free Fire packages will be loaded here -->
+                <!-- Packages will be loaded here -->
             </div>
 
             <div class="payment-section">
                 <h2><i class="fas fa-wallet"></i> Payment Methods</h2>
-                <div class="payment-methods">
-                    <div class="payment-method">
-                        <div class="payment-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <div class="payment-info">
-                            <h3>Bkash</h3>
-                            <p>01767882562</p>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <div class="payment-icon">
-                            <i class="fas fa-money-bill-wave"></i>
-                        </div>
-                        <div class="payment-info">
-                            <h3>Nagad</h3>
-                            <p>01767882562</p>
-                        </div>
-                    </div>
-                    <div class="payment-method">
-                        <div class="payment-icon">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
-                        <div class="payment-info">
-                            <h3>Rocket</h3>
-                            <p>01767882562</p>
-                        </div>
-                    </div>
+                <div class="payment-methods" id="paymentMethodsContainer">
+                    <!-- Payment methods will be loaded here -->
                 </div>
-                <p style="margin-top: 1.5rem; color: #777; font-style: italic;">After payment, please fill the order form with your transaction ID to receive your items.</p>
+                <p class="payment-note">After payment, please fill the order form with your transaction ID to receive your items.</p>
             </div>
         </section>
 
@@ -585,7 +822,7 @@
             </div>
 
             <div class="packages-grid" id="pubgPackagesContainer">
-                <!-- PUBG packages will be loaded here -->
+                <!-- Packages will be loaded here -->
             </div>
         </section>
 
@@ -602,7 +839,7 @@
             </div>
 
             <div class="packages-grid" id="cocPackagesContainer">
-                <!-- COC packages will be loaded here -->
+                <!-- Packages will be loaded here -->
             </div>
         </section>
 
@@ -619,7 +856,7 @@
             </div>
 
             <div class="packages-grid" id="codPackagesContainer">
-                <!-- COD packages will be loaded here -->
+                <!-- Packages will be loaded here -->
             </div>
         </section>
 
@@ -636,7 +873,7 @@
             </div>
 
             <div class="packages-grid" id="pcPackagesContainer">
-                <!-- PC games packages will be loaded here -->
+                <!-- Packages will be loaded here -->
             </div>
         </section>
     </div>
@@ -691,6 +928,16 @@
         </div>
     </div>
 
+    <!-- Notification Modal -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3 id="notificationTitle">Success</h3>
+        <p id="notificationMessage">Your order has been submitted successfully!</p>
+        <button class="notification-btn" id="notificationBtn">OK</button>
+    </div>
+
     <footer>
         <div class="footer-container">
             <div class="footer-col">
@@ -705,25 +952,18 @@
             <div class="footer-col">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">How to Order</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                  
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Payment Help</a></li>
-                    <li><a href="#">Delivery Policy</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Free Fire</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> PUBG Mobile</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i> Clash of Clans</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h3>Contact</h3>
                 <ul>
-                    <li><i class="fas fa-phone"></i> 01767882562</li>
-                    <li><i class="fas fa-envelope"></i> support@srsgameshop.com</li>
+                    <li><a href="tel:01767882562"><i class="fas fa-phone"></i> 01767882562</a></li>
+                    <li><a href="mailto:support@srsgameshop.com"><i class="fas fa-envelope"></i> support@srsgameshop.com</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Dhaka, Bangladesh</a></li>
                 </ul>
             </div>
         </div>
@@ -732,14 +972,35 @@
         </div>
     </footer>
 
+    <!-- Firebase and other scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB0fkLpu2BMFYZwUD62VCHyzl0WL83PiZM",
+            authDomain: "bloodzonebattle.firebaseapp.com",
+            databaseURL: "https://bloodzonebattle-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "bloodzonebattle",
+            storageBucket: "bloodzonebattle.appspot.com",
+            messagingSenderId: "1076060542688",
+            appId: "1:1076060542688:web:be696d81eb0172eee22285",
+            measurementId: "G-4TEN1VC0VN"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         // Game sections navigation
         function showGameSection(game) {
             // Update active nav item
             document.querySelectorAll('.game-nav-item').forEach(item => {
                 item.classList.remove('active');
             });
-            event.target.classList.add('active');
+            event.currentTarget.classList.add('active');
             
             // Show selected section
             document.querySelectorAll('.game-section').forEach(section => {
@@ -748,96 +1009,146 @@
             document.getElementById(game + 'Section').classList.add('active');
         }
         
-        // Load packages for each game
-        function loadGamePackages(game) {
-            const packages = JSON.parse(localStorage.getItem(game + 'Packages')) || [];
-            const container = document.getElementById(game + 'PackagesContainer');
+        // Show notification
+        function showNotification(title, message, isSuccess) {
+            const notification = document.getElementById('notification');
+            const notificationTitle = document.getElementById('notificationTitle');
+            const notificationMessage = document.getElementById('notificationMessage');
+            const notificationIcon = notification.querySelector('.notification-icon i');
             
-            if (packages.length === 0 && game === 'ff') {
-                // Default Free Fire packages if none exist
-                const defaultPackages = [
-                    { id: 1, name: "100 Diamonds", amount: 100, price: 100, originalPrice: 120, badge: "Popular" },
-                    { id: 2, name: "310 Diamonds", amount: 310, price: 300, originalPrice: 350, badge: "Best Value" },
-                    { id: 3, name: "520 Diamonds", amount: 520, price: 500, originalPrice: 600, badge: "" },
-                    { id: 4, name: "1060 Diamonds", amount: 1060, price: 1000, originalPrice: 1200, badge: "Mega Deal" }
-                ];
-                localStorage.setItem('ffPackages', JSON.stringify(defaultPackages));
-                loadGamePackages(game);
-                return;
-            }
+            notification.className = isSuccess ? 'notification success' : 'notification error';
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+            notificationIcon.className = isSuccess ? 'fas fa-check-circle' : 'fas fa-times-circle';
             
-            if (packages.length === 0 && game === 'pubg') {
-                // Default PUBG packages if none exist
-                const defaultPackages = [
-                    { id: 1, name: "60 UC", amount: 60, price: 100, originalPrice: 120, badge: "" },
-                    { id: 2, name: "325 UC", amount: 325, price: 500, originalPrice: 550, badge: "Popular" },
-                    { id: 3, name: "660 UC", amount: 660, price: 1000, originalPrice: 1100, badge: "" }
-                ];
-                localStorage.setItem('pubgPackages', JSON.stringify(defaultPackages));
-                loadGamePackages(game);
-                return;
-            }
+            notification.classList.add('active');
             
-            if (packages.length === 0 && game === 'coc') {
-                // Default COC packages if none exist
-                const defaultPackages = [
-                    { id: 1, name: "500 Gems", amount: 500, price: 100, originalPrice: 120, badge: "" },
-                    { id: 2, name: "1200 Gems", amount: 1200, price: 200, originalPrice: 250, badge: "" },
-                    { id: 3, name: "2500 Gems", amount: 2500, price: 400, originalPrice: 450, badge: "Best Value" }
-                ];
-                localStorage.setItem('cocPackages', JSON.stringify(defaultPackages));
-                loadGamePackages(game);
-                return;
-            }
+            // Close notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 5000);
+        }
+        
+        // Close notification
+        document.getElementById('notificationBtn').addEventListener('click', () => {
+            document.getElementById('notification').classList.remove('active');
+        });
+        
+        // Load packages for each game with realtime updates
+        function setupRealtimePackageListeners() {
+            const games = ['ff', 'pubg', 'coc', 'cod', 'pc'];
             
-            if (packages.length === 0 && game === 'cod') {
-                // Default COD packages if none exist
-                const defaultPackages = [
-                    { id: 1, name: "80 CP", amount: 80, price: 100, originalPrice: 120, badge: "" },
-                    { id: 2, name: "400 CP", amount: 400, price: 500, originalPrice: 550, badge: "Popular" },
-                    { id: 3, name: "800 CP", amount: 800, price: 1000, originalPrice: 1100, badge: "" }
-                ];
-                localStorage.setItem('codPackages', JSON.stringify(defaultPackages));
-                loadGamePackages(game);
-                return;
-            }
-            
-            if (packages.length === 0 && game === 'pc') {
-                // Default PC Games packages if none exist
-                const defaultPackages = [
-                    { id: 1, name: "Steam Wallet 500", amount: 500, price: 500, originalPrice: 550, badge: "" },
-                    { id: 2, name: "Steam Wallet 1000", amount: 1000, price: 1000, originalPrice: 1100, badge: "Popular" },
-                    { id: 3, name: "Steam Wallet 2000", amount: 2000, price: 2000, originalPrice: 2200, badge: "" }
-                ];
-                localStorage.setItem('pcPackages', JSON.stringify(defaultPackages));
-                loadGamePackages(game);
-                return;
-            }
-            
-            container.innerHTML = '';
-            
-            packages.forEach(pkg => {
-                const packageCard = document.createElement('div');
-                packageCard.className = 'package-card';
-                packageCard.innerHTML = `
-                    ${pkg.badge ? `<div class="package-badge">${pkg.badge}</div>` : ''}
-                    <div class="package-image" style="background: ${getGameColor(game)}">
-                        <div class="package-image-content">
-                            ${pkg.amount} <span style="font-size: 1.5rem;">${getGameIcon(game)}</span>
+            games.forEach(game => {
+                database.ref('packages/' + game).on('value', (snapshot) => {
+                    const packagesData = snapshot.val();
+                    const container = document.getElementById(game + 'PackagesContainer');
+                    
+                    container.innerHTML = '';
+                    
+                    if (!packagesData) {
+                        // No packages found for this game
+                        if (game === 'ff') {
+                            // Add default Free Fire packages if none exist
+                            const defaultPackages = {
+                                0: { id: '1', name: "100 Diamonds", amount: 100, price: 100, originalPrice: 120, badge: "Popular" },
+                                1: { id: '2', name: "310 Diamonds", amount: 310, price: 300, originalPrice: 350, badge: "Best Value" },
+                                2: { id: '3', name: "520 Diamonds", amount: 520, price: 500, originalPrice: 600, badge: "" },
+                                3: { id: '4', name: "1060 Diamonds", amount: 1060, price: 1000, originalPrice: 1200, badge: "Mega Deal" }
+                            };
+                            
+                            database.ref('packages/ff').set(defaultPackages);
+                        }
+                        return;
+                    }
+                    
+                    // Convert packages object to array
+                    const packages = Object.values(packagesData);
+                    
+                    packages.forEach(pkg => {
+                        if (!pkg) return;
+                        
+                        const packageCard = document.createElement('div');
+                        packageCard.className = 'package-card';
+                        packageCard.innerHTML = `
+                            ${pkg.badge ? `<div class="package-badge">${pkg.badge}</div>` : ''}
+                            <div class="package-image" style="background: ${getGameColor(game)}">
+                                <div class="package-image-content">
+                                    ${pkg.amount} <span style="font-size: 1.5rem;">${getGameIcon(game)}</span>
+                                </div>
+                            </div>
+                            <div class="package-details">
+                                <h3>${pkg.name}</h3>
+                                <div class="package-price">
+                                    ${pkg.price} BDT
+                                    ${pkg.originalPrice ? `<span>${pkg.originalPrice} BDT</span>` : ''}
+                                </div>
+                                <button class="buy-btn" onclick="showOrderForm('${pkg.id}', '${pkg.name}', ${pkg.price}, '${game}')">
+                                    <i class="fas fa-shopping-cart"></i> Buy Now
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(packageCard);
+                    });
+                });
+            });
+        }
+        
+        // Load payment methods with realtime updates
+        function setupRealtimePaymentListeners() {
+            database.ref('paymentSettings').on('value', (snapshot) => {
+                const settings = snapshot.val() || {
+                    bkashNumber: '01767882562',
+                    nagadNumber: '01767882562',
+                    rocketNumber: '01767882562'
+                };
+                
+                const container = document.getElementById('paymentMethodsContainer');
+                container.innerHTML = `
+                    <div class="payment-method">
+                        <div class="payment-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="payment-info">
+                            <h3>Bkash</h3>
+                            <p>${settings.bkashNumber}</p>
                         </div>
                     </div>
-                    <div class="package-details">
-                        <h3>${pkg.name}</h3>
-                        <div class="package-price">
-                            ${pkg.price} BDT
-                            ${pkg.originalPrice ? `<span>${pkg.originalPrice} BDT</span>` : ''}
+                    <div class="payment-method">
+                        <div class="payment-icon">
+                            <i class="fas fa-money-bill-wave"></i>
                         </div>
-                        <button class="buy-btn" onclick="showOrderForm('${pkg.id}', '${pkg.name}', ${pkg.price}, '${game}')">
-                            <i class="fas fa-shopping-cart"></i> Buy Now
-                        </button>
+                        <div class="payment-info">
+                            <h3>Nagad</h3>
+                            <p>${settings.nagadNumber}</p>
+                        </div>
+                    </div>
+                    <div class="payment-method">
+                        <div class="payment-icon">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="payment-info">
+                            <h3>Rocket</h3>
+                            <p>${settings.rocketNumber}</p>
+                        </div>
                     </div>
                 `;
-                container.appendChild(packageCard);
+            });
+        }
+        
+        // Load site notifications
+        function setupSiteNotificationListener() {
+            database.ref('notifications').orderByChild('timestamp').limitToLast(1).on('child_added', (snapshot) => {
+                const notification = snapshot.val();
+                if (notification) {
+                    document.getElementById('siteNotificationTitle').textContent = notification.title;
+                    document.getElementById('siteNotificationMessage').textContent = notification.message;
+                    document.getElementById('siteNotificationContainer').style.display = 'flex';
+                    
+                    // Auto hide after 10 seconds
+                    setTimeout(() => {
+                        document.getElementById('siteNotificationContainer').style.display = 'none';
+                    }, 10000);
+                }
             });
         }
         
@@ -879,43 +1190,71 @@
         
         // Submit order
         document.getElementById('submitOrderBtn').addEventListener('click', () => {
+            const submitBtn = document.getElementById('submitOrderBtn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<span class="loading-spinner"></span> Processing...`;
+            
             const order = {
-                id: Date.now(),
+                id: Date.now().toString(),
                 packageId: document.getElementById('packageId').value,
                 packageName: document.getElementById('packageName').value,
                 packagePrice: document.getElementById('packagePrice').value,
                 gameType: document.getElementById('gameType').value,
                 playerId: document.getElementById('playerId').value,
-                playerName: document.getElementById('playerName').value,
+                playerName: document.getElementById('playerName').value || '',
                 paymentMethod: document.getElementById('paymentMethod').value,
                 transactionId: document.getElementById('transactionId').value,
-                playerPhone: document.getElementById('playerPhone').value,
+                playerPhone: document.getElementById('playerPhone').value || '',
                 status: 'Pending',
-                date: new Date().toLocaleString()
+                date: new Date().toLocaleString(),
+                timestamp: firebase.database.ServerValue.TIMESTAMP
             };
             
             if (!order.playerId || !order.paymentMethod || !order.transactionId) {
-                alert('Please fill all required fields');
+                showNotification('Error', 'Please fill all required fields', false);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
                 return;
             }
             
-            // Save order
-            let orders = JSON.parse(localStorage.getItem('orders')) || [];
-            orders.push(order);
-            localStorage.setItem('orders', JSON.stringify(orders));
-            
-            alert('Order submitted successfully! Our admin will process it shortly.');
-            document.getElementById('orderForm').reset();
-            document.getElementById('orderFormContainer').style.display = 'none';
-            document.body.style.overflow = 'auto';
+            // Save order to Firebase
+            database.ref('orders').push(order).then(() => {
+                showNotification('Success', 'Order submitted successfully! Our admin will process it shortly.', true);
+                document.getElementById('orderForm').reset();
+                document.getElementById('orderFormContainer').style.display = 'none';
+                document.body.style.overflow = 'auto';
+                
+                // Send notification to admin dashboard
+                database.ref('adminNotifications').push({
+                    type: 'new_order',
+                    message: `New order for ${order.packageName} (${order.gameType})`,
+                    orderId: order.id,
+                    read: false,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                });
+                
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            }).catch((error) => {
+                console.error('Error saving order:', error);
+                showNotification('Error', 'There was an error submitting your order. Please try again.', false);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
+            });
         });
         
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // Load packages for all games
-            ['ff', 'pubg', 'coc', 'cod', 'pc'].forEach(game => {
-                loadGamePackages(game);
-            });
+            // Set up realtime listeners for packages and payment methods
+            setupRealtimePackageListeners();
+            setupRealtimePaymentListeners();
+            setupSiteNotificationListener();
+            
+            // Set default active section
+            showGameSection('ff');
         });
     </script>
 </body>
